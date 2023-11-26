@@ -1,0 +1,12 @@
+.masterInfo {
+    width: 800px;
+    margin: auto;
+    border: 1px solid teal;
+    padding: 10px;
+}
+
+.phoneNumberInput {
+    width: 300px;
+    margin: 5px 0;
+    border: 1px solid teal;
+}
