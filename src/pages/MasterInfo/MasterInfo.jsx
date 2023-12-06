@@ -7,6 +7,8 @@ import { isValidPassword } from "../../utils/utils";
 import PhoneNumberInput from "../../components/UI/PhoneNumberForm/PhoneNumberForm";
 import { getPhoneNumber, deleteChapters } from "../../utils/phoneNumber";
 import { useNavigate } from "react-router-dom";
+import MyModal from "../../components/MyModal/MyModal";
+import DeleteMaster from "../../components/UI/DeleteMaster/DeleteMaster";
 
 
 function MasterInfo() {
@@ -19,6 +21,8 @@ function MasterInfo() {
 
     const [newPassword, setNewPassword] = useState("");
     const [repeatNewPassword, setRepeatNewpassword] = useState("");
+
+    const [deleteModal, setDeleteModal] = useState(false);
 
     const [fetchMaster, isLoading, masterError] = useFetching(async () => {
         const response = await MasterService.getMasterInfo(params.id);
@@ -88,6 +92,9 @@ function MasterInfo() {
 
     return (
         <div className={classes.masterInfo}>
+            <MyModal visible={deleteModal} setVisible={setDeleteModal}>
+                <DeleteMaster setVisible={setDeleteModal} masterID={master.id}/>
+            </MyModal>
             <h3>Информация о мастере</h3>
             <p><b>id:</b> {master.id}</p>
             <p><b>Фамилие имя:</b> {master.surname} {master.name}</p>
@@ -127,6 +134,7 @@ function MasterInfo() {
                 ? <div>Загрузка...</div>
                 : <button className={classes.updateBtn} disabled={!hasChanges()} onClick={sendUpdatedInfo}>Обновить</button> 
             }
+            <button className={classes.deleteBtn} onClick={() => setDeleteModal(true)}>Удалить</button> 
         </div>
     )
 }

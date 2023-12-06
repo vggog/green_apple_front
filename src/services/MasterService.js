@@ -13,4 +13,8 @@ export default class MasterService {
     static updateMasterInfo(data, masterID) {
         return api.put("/admin/master/" + masterID, data)
     }
+
+    static async deleteMaster(masterID) {
+        return api.delete("admin/master/" + masterID);
+    }
 }
