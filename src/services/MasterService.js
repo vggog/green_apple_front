@@ -9,4 +9,8 @@ export default class MasterService {
     static async getMasterInfo(masterID) {
         return api.get("/admin/master/" + masterID);
     }
+
+    static updateMasterInfo(data, masterID) {
+        return api.put("/admin/master/" + masterID, data)
+    }
 }

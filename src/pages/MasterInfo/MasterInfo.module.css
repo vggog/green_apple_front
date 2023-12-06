@@ -10,3 +10,17 @@
     margin: 5px 0;
     border: 1px solid teal;
 }
+
+.updateBtn {
+    padding: 5px 15px;
+    color: teal;
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid teal;
+    cursor: pointer;
+}
+
+.updateBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
