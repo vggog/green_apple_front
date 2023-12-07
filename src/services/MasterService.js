@@ -6,6 +6,10 @@ export default class MasterService {
         return api.get("/admin/master/all")
     }
 
+    static async addNewMaster(data) {
+        return api.post("admin/master/", data);
+    }
+
     static async getMasterInfo(masterID) {
         return api.get("/admin/master/" + masterID);
     }
