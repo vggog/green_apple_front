@@ -6,6 +6,9 @@ import MasterInfo from "../pages/MasterInfo/MasterInfo"
 import CreateMaster from "../pages/CreateMaster/CreateMaster"
 import NotFound from "../pages/NotFound/NotFound"
 
+import MasterLogin from "../pages/MasterLogin/MasterLogin"
+import AllRepairOrders from "../pages/AllRepairOrders/AllRepairOrders"
+
 
 export const publicRoutes = [
     {path: '/', component: Home, exact: true},
@@ -18,7 +21,12 @@ export const adminRoutes = [
     {path: '/admin/master/add', component: CreateMaster, exact: true},
 ]
 
+export const masterRoutes = [
+    {path: '/repair_orders/all', component: AllRepairOrders, exact: true}
+]
+
 export const systemRoutes = [
     {path: '/admin/auth', component: AdminLogin, exact: true},
+    {path: '/master/auth', component: MasterLogin, exact: true},
     {path: '*', component: NotFound, exact: true},
 ]

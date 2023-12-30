@@ -1,9 +1,9 @@
 import React from "react";
-import classes from "./AdminLogin.module.css"
+import classes from "./MasterLogin.module.css"
 import Login from "../../components/UI/LoginForm/LoginForm";
 
 
-function AdminLogin() {
+function MasterLogin() {
     let whoAuth = {
         admin: "админ",
         master: "мастер",
@@ -17,10 +17,10 @@ function AdminLogin() {
 
     return (
         <div className={classes.adminLoginPage}>
-            <Login whoAuth="admin" urlToRedirect="/admin/master/all"/>
+            <Login whoAuth="master" urlToRedirect="/"/>
         </div>
     );
 };
 
 
-export default AdminLogin;
+export default MasterLogin;

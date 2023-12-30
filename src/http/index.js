@@ -21,13 +21,17 @@ api.interceptors.response.use(
         if (error.response) {
             if (error.response.status === 401 && !originalConfig._retry) {
                 originalConfig._retry = true;
-
-                const rs = await api.get("/admin/auth/refresh");
-        
+                var rs;
+                if (localStorage.getItem("whoAuth") === "admin") {
+                    rs = await api.get("/admin/auth/refresh");
+                } else if (localStorage.getItem("whoAuth") === "master") {
+                    rs = await api.get("/master/refresh");
+                }
+                
                 const accessToken = rs.data.access_token;
                 localStorage.removeItem("token");
                 localStorage.setItem("token", accessToken);
-        
+
                 return api(originalConfig);
             }        
         }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { publicRoutes, adminRoutes, systemRoutes } from "../route";
+import { publicRoutes, adminRoutes, systemRoutes, masterRoutes } from "../route";
 
 
 function AppRouter() {
@@ -9,6 +9,8 @@ function AppRouter() {
 
     if (localStorage.getItem("whoAuth") === "admin") {
         routes.push(...adminRoutes);
+    } else if (localStorage.getItem("whoAuth") === "master") {
+        routes.push(...masterRoutes);
     }
 
     routes.push(...systemRoutes);
