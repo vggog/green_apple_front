@@ -5,15 +5,21 @@ import { useParams } from "react-router-dom";
 
 
 function RepairOrder() {
+    var response;
     const params = useParams();
 
     const [repairOrder, setRepairOrder] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [isUpdatingLoading, setIsUpdatingLoading] = useState(false);
+    const [statusOfRepairOrder, setStatusOfRepairOrder] = useState("");
+
+    var statuses = ["Принят на ремонт", "Ремонтируется", "Готов", "Выдан клиенту"]
 
     async function fetchRepairOrder() {
         setIsLoading(true);
-        const response = await RepairOrderService.fetchRepairOrder(params.id);
+        response = await RepairOrderService.fetchRepairOrder(params.id);
         setRepairOrder(response.data);
+        setStatusOfRepairOrder(response.data.status);
         setIsLoading(false);
     }
 
@@ -30,6 +36,20 @@ function RepairOrder() {
     var createdAtDate = new Date(repairOrder.created_at);
     var updatedAtDate = new Date(repairOrder.updated_at);
 
+    async function updateRepairOrderStatus(e) {
+        e.preventDefault();
+
+        setIsUpdatingLoading(true);
+        response = await RepairOrderService.updateRepairOrderStatus(params.id, {"status": statusOfRepairOrder});
+
+        setRepairOrder(response.data);
+        setStatusOfRepairOrder(response.data.status);
+        setIsUpdatingLoading(false);
+    }
+
+    var indexOfStatus = statuses.indexOf(repairOrder.status);
+    console.log(repairOrder.status)
+
     return (
         <div className={classes.repairOrderInfo}>
             <strong>{repairOrder.id}. {repairOrder.phone_model}</strong>
@@ -40,7 +60,34 @@ function RepairOrder() {
             <p>IMEI: {repairOrder.imei}</p>
             <p>Дефект: {repairOrder.defect}</p>
             { repairOrder.note && <p>Примечание: {repairOrder.note}</p> }
-            <p>Статус: {repairOrder.status}</p>
+            
+            <p>Статус: <select defaultValue={repairOrder.status} onChange={(e) => setStatusOfRepairOrder(e.target.value)}>
+                {
+                    statuses.slice(0, indexOfStatus).map( (statusItem) => 
+                        <option key={statuses.indexOf(statusItem)} value={statusItem}>{statusItem}</option>
+                    )
+                }
+                <option disabled value={repairOrder.status}>{repairOrder.status}</option>
+                {
+                    statuses.slice(indexOfStatus + 1, ).map( (statusItem) => 
+                        <option key={statuses.indexOf(statusItem)} value={statusItem}>{statusItem}</option>
+                    )
+                }
+            </select></p>
+
+            { 
+            isUpdatingLoading ?
+                <div>Загрузка...</div>
+                
+                : <button 
+                    className={classes.updateStatusBtn} 
+                    disabled={repairOrder.status === statusOfRepairOrder} 
+                    onClick={updateRepairOrderStatus}
+                >
+                    Обновить статус
+                </button> 
+                
+            }
         </div>
     )
 }
