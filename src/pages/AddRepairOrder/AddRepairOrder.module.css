@@ -1,0 +1,33 @@
+.addRepairOrder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addRepairOrderForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputForm {
+    width: 450px;
+    margin: 5px 0;
+    padding: 5px 15px;
+    font-size: 14px;
+    border: 1px solid teal;
+}
+
+.addRepairOrderBtn {
+    margin: 5px 0;
+    padding: 5px 15px;
+    color: teal;
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid teal;
+    cursor: pointer;
+}
+
+.addRepairOrderBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

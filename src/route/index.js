@@ -9,6 +9,7 @@ import NotFound from "../pages/NotFound/NotFound"
 import MasterLogin from "../pages/MasterLogin/MasterLogin"
 import AllRepairOrders from "../pages/AllRepairOrders/AllRepairOrders"
 import RepairOrder from "../pages/RepairOrder/RepairOrder"
+import AddRepairOrder from "../pages/AddRepairOrder/AddRepairOrder"
 
 
 export const publicRoutes = [
@@ -25,6 +26,7 @@ export const adminRoutes = [
 export const masterRoutes = [
     {path: '/repair_orders/all', component: AllRepairOrders, exact: true},
     {path: '/repair_orders/:id', component: RepairOrder, exact: true},
+    {path: '/repair_orders/add', component: AddRepairOrder, exact: true}
 ]
 
 export const systemRoutes = [
