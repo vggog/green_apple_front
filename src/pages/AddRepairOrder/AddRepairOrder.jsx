@@ -31,7 +31,6 @@ function AddRepairOrder() {
 
         setIsLoading(true);
         const response = await RepairOrderService.addRepairOrder(repairOrderData);
-        console.log(response)
         const repairOrder = response.data;
         setIsLoading(false);
 

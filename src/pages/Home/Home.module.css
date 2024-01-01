@@ -1,0 +1,26 @@
+.homePage {
+    width: 800px;
+    margin: auto;
+}
+
+.trackInputForm {
+    width: 100%;
+    padding: 5px 15px;
+    margin: 5px 0px;
+    border: 1px solid teal;
+}
+
+.trackBtn {
+    padding: 5px 15px;
+    color: teal;
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid teal;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.trackBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

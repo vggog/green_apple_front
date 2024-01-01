@@ -33,7 +33,9 @@ api.interceptors.response.use(
                 localStorage.setItem("token", accessToken);
 
                 return api(originalConfig);
-            }        
+            }
+            
+            return error.response
         }
     }
 )

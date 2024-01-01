@@ -1,0 +1,7 @@
+.statusOfOrder {
+    width: 100%;
+    border: 1px solid teal;
+    padding: 10px;
+    margin-top: 25px;
+    min-height: 100px;
+}
