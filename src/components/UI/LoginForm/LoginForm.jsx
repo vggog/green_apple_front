@@ -14,7 +14,8 @@ function Login({ whoAuth, urlToRedirect = "" }) {
 
     const navigate = useNavigate();
 
-    function authorize() {
+    function authorize(e) {
+        e.preventDefault();
         store.login(username, password, whoAuth);
         localStorage.setItem("whoAuth", whoAuth);
         if (urlToRedirect) navigate(urlToRedirect);

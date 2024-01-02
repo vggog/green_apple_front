@@ -16,8 +16,8 @@ function MasterLogin() {
     }
 
     return (
-        <div className={classes.adminLoginPage}>
-            <Login whoAuth="master" urlToRedirect="/"/>
+        <div className={classes.masterLoginPage}>
+            <Login whoAuth="master" urlToRedirect="/repair_orders/all"/>
         </div>
     );
 };
