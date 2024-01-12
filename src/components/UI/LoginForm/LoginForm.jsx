@@ -4,21 +4,40 @@ import MyInput from "../MyInput/MyInput";
 import MyButton from "../MyButton/MyButton";
 import classes from "./LoginForm.module.css"
 import { useNavigate } from "react-router-dom";
+import { UnauthorizedError, MasterNotFoundError, MasterWhorstPasswordError } from "../../../exceptions/HttpErrorException";
+
 
 
 function Login({ whoAuth, urlToRedirect = "" }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const {store} = useContext(Context);
 
     const navigate = useNavigate();
 
-    function authorize(e) {
+    async function authorize(e) {
         e.preventDefault();
-        store.login(username, password, whoAuth);
-        localStorage.setItem("whoAuth", whoAuth);
-        if (urlToRedirect) navigate(urlToRedirect);
+        var flag = true;
+
+        try {
+            await store.login(username, password, whoAuth);
+        } catch (e) {
+            flag = false;
+            if (e instanceof UnauthorizedError) {
+                setErrorMessage("Неверный логин или пароль.");
+            } else if (e instanceof MasterNotFoundError) {
+                setErrorMessage("Мастер не найден.")
+            } else if (e instanceof MasterWhorstPasswordError) {
+                setErrorMessage("Неверный пароль.")
+            }
+        }
+
+        if (flag) {
+            localStorage.setItem("whoAuth", whoAuth);
+            if (urlToRedirect) navigate(urlToRedirect);
+        }
     }
 
     return (
@@ -36,6 +55,7 @@ function Login({ whoAuth, urlToRedirect = "" }) {
                 placeholder="пароль"
             />
             <MyButton onClick={authorize}>Войти</MyButton>
+            {errorMessage && <div>{errorMessage}</div>}
         </div>    
     );
 };

@@ -5,3 +5,10 @@
     margin-top: 25px;
     min-height: 100px;
 }
+
+@media ( max-width: 850px) {
+    .statusOfOrder {
+        padding: 5px 15px;
+        margin: 5px;
+    }
+}

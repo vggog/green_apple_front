@@ -31,3 +31,13 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+@media ( max-width: 500px) {
+    .inputForm {
+        width: 100%;
+    }
+
+    .addMasterButton {
+        width: 100%;
+    }
+}

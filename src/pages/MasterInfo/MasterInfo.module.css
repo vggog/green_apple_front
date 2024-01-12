@@ -34,3 +34,15 @@
     cursor: pointer;
     float: right;
 }
+
+@media ( max-width: 800px) {
+    .masterInfo {
+        width: 90%;
+    }
+}
+
+@media ( max-width: 350px) {
+    .phoneNumberInput {
+        width: 100%;
+    }
+}

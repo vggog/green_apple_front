@@ -1,6 +1,8 @@
 import {makeAutoObservable} from "mobx";
 import AuthService from "../services/AuthService";
 import MasterAuth from "../services/MasterAuth"
+import { HttpStatusCode } from "axios";
+import { UnauthorizedError, MasterNotFoundError, MasterWhorstPasswordError } from "../exceptions/HttpErrorException";
 
 
 export default class Store {
@@ -27,6 +29,15 @@ export default class Store {
         else if (whoAuth === "master") {
             response = await MasterAuth.login(username, password);
         }
-        localStorage.setItem('token', response.data.access_token);
+
+        if (response.status === 401) {
+            throw new UnauthorizedError("Логин или пароль неверный.", 401)
+        } else if (response.status === 404) {
+            throw new MasterNotFoundError("Мастер не найден.111", 404)
+        } else if (response.status === 403) {
+            throw new MasterWhorstPasswordError("Мастер не найден.", 403)
+        } else {
+            localStorage.setItem('token', response.data.access_token);
+        }
     }
 }

@@ -1,4 +1,10 @@
 .loginForm {
     width: 350px;
-    padding: 25px;
+}
+
+@media ( max-width: 450px) {
+    .loginForm {
+        width: 80%;
+        margin-right: 15px;
+    }
 }

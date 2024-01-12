@@ -18,3 +18,9 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+@media ( max-width: 800px) {
+    .repairOrderInfo {
+        width: 90%;
+    }
+}
