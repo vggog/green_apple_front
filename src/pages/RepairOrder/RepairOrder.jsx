@@ -11,6 +11,8 @@ function RepairOrder() {
     const [repairOrder, setRepairOrder] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [isUpdatingLoading, setIsUpdatingLoading] = useState(false);
+    const [isFetchFileLoading, setIsFetchFileLoading] = useState(false);
+
     const [statusOfRepairOrder, setStatusOfRepairOrder] = useState("");
 
     var statuses = ["Принят на ремонт", "Ремонтируется", "Готов", "Выдан клиенту"]
@@ -47,9 +49,25 @@ function RepairOrder() {
         setIsUpdatingLoading(false);
     }
 
-    var indexOfStatus = statuses.indexOf(repairOrder.status);
-    console.log(repairOrder.status)
+    async function getReceiptFile() {
+        setIsFetchFileLoading(true);
+        await RepairOrderService.getReceiptFile(params.id).then(response => {
 
+            const href = URL.createObjectURL(response.data, {type: 'application/pdf'});
+            const link = document.createElement('a');
+            link.href = href;
+            link.setAttribute('download', 'Квитанция ' + params.id + '.pdf');
+            document.body.appendChild(link);
+            link.click();
+        
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+        })
+        setIsFetchFileLoading(false)
+    }
+
+    var indexOfStatus = statuses.indexOf(repairOrder.status);
+    
     return (
         <div className={classes.repairOrderInfo}>
             <strong>{repairOrder.id}. {repairOrder.phone_model}</strong>
@@ -85,6 +103,19 @@ function RepairOrder() {
                     onClick={updateRepairOrderStatus}
                 >
                     Обновить статус
+                </button> 
+                
+            }
+            
+            { 
+            isFetchFileLoading ?
+                <div>Загрузка...</div>
+                
+                : <button 
+                    className={classes.updateStatusBtn} 
+                    onClick={getReceiptFile}
+                >
+                    Загрузить квитанцию
                 </button> 
                 
             }

@@ -16,7 +16,8 @@ function AllRepairOrders() {
     async function GetAllRepairOrders() {
         setIsLoading(true);
         const response = await RepairOrderService.getAllRepairOrders();
-        setRepairOrders(response.data);
+        const rawRepairOrders = response.data;
+        setRepairOrders(rawRepairOrders.filter((item) => item.status !== "Выдан клиенту"));
         setIsLoading(false);
     }
 

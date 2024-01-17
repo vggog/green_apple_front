@@ -15,6 +15,31 @@
     padding: 5px 15px;
     font-size: 14px;
     border: 1px solid teal;
+    position: relative;
+}
+
+.autoComplite {
+    left: 0;
+    top: 50px;
+    width: 450px;
+    background-color: white;
+    list-style: none;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15);
+    padding: 5px 15px;
+    margin: 0;
+
+    max-height: 250px;
+    height: auto;
+    overflow: auto;
+}
+
+.autoComplite_item {
+    padding: 5px;
+}
+.autoComplite_item:hover {
+    background: rgb(224, 224, 224);
+    cursor: pointer;
+    transition: cubic-bezier(1, 0, 0, 1) .3s all;
 }
 
 .addRepairOrderBtn {

@@ -19,7 +19,7 @@ function Home() {
                 }
             }
                 value={trackNumber}
-                placeholder="Трек-номер"
+                placeholder="Номер заказа"
                 type="text"
             />  
             <button 
