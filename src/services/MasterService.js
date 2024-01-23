@@ -21,4 +21,8 @@ export default class MasterService {
     static async deleteMaster(masterID) {
         return api.delete("admin/master/" + masterID);
     }
+
+    static async getAllRepairOrders() {
+        return api.get("/admin/repair_orders/all")
+    }
 }

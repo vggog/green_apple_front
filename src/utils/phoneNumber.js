@@ -4,7 +4,7 @@ export function getInputNumbers(number) {
 
 export function deleteChapters(phone) {
     const numbers = phone.replace(/\D/g, "")
-    if (numbers[0] == 7) {
+    if (numbers[0] === 7) {
         return "8" + numbers.slice(1);
     }
     

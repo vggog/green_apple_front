@@ -5,6 +5,7 @@ import Logout from "../pages/Logout/Logout"
 import MasterInfo from "../pages/MasterInfo/MasterInfo"
 import CreateMaster from "../pages/CreateMaster/CreateMaster"
 import NotFound from "../pages/NotFound/NotFound"
+import AdminAllRepairOrders from "../pages/AdminAllRepairOrders/AdminAllRepairOrders"
 
 import MasterLogin from "../pages/MasterLogin/MasterLogin"
 import AllRepairOrders from "../pages/AllRepairOrders/AllRepairOrders"
@@ -21,6 +22,7 @@ export const adminRoutes = [
     {path: '/admin/master/all', component: AllMasters, exact: true},
     {path: '/admin/master/:id', component: MasterInfo, exact: true},
     {path: '/admin/master/add', component: CreateMaster, exact: true},
+    {path: '/admin/repair_orders', component: AdminAllRepairOrders, exact: true},
 ]
 
 export const masterRoutes = [

@@ -1,0 +1,10 @@
+.allRepairOrders {
+    width: 800px;
+    margin: auto;
+}
+
+@media ( max-width: 800px) {
+    .allRepairOrders {
+        width: 100%;
+    }
+}
