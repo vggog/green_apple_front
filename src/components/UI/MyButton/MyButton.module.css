@@ -6,3 +6,9 @@
     border: 1px solid teal;
     cursor: pointer;
 }
+
+
+.myButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

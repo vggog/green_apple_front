@@ -5,6 +5,9 @@ import MyButton from "../MyButton/MyButton";
 import classes from "./LoginForm.module.css"
 import { useNavigate } from "react-router-dom";
 import { UnauthorizedError, MasterNotFoundError, MasterWhorstPasswordError } from "../../../exceptions/HttpErrorException";
+import PhoneNumberInput from "../PhoneNumberForm/PhoneNumberForm";
+import cl from "../MyInput/MyInput.module.css"
+import { deleteChapters } from "../../../utils/phoneNumber";
 
 
 
@@ -21,8 +24,16 @@ function Login({ whoAuth, urlToRedirect = "" }) {
         e.preventDefault();
         var flag = true;
 
+        var sendedUsername;
+
+        if (whoAuth === "master") {
+            sendedUsername = deleteChapters(username)
+        } else {
+            sendedUsername = username
+        }
+
         try {
-            await store.login(username, password, whoAuth);
+            await store.login(sendedUsername, password, whoAuth);
         } catch (e) {
             flag = false;
             if (e instanceof UnauthorizedError) {
@@ -31,7 +42,10 @@ function Login({ whoAuth, urlToRedirect = "" }) {
                 setErrorMessage("Мастер не найден.")
             } else if (e instanceof MasterWhorstPasswordError) {
                 setErrorMessage("Неверный пароль.")
+            } else if (e instanceof Error) {
+                setErrorMessage("Произошла ошибка.")
             }
+            return;
         }
 
         if (flag) {
@@ -42,19 +56,30 @@ function Login({ whoAuth, urlToRedirect = "" }) {
 
     return (
         <div className={classes.loginForm}>
-            <MyInput
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
-                type="text"
-                placeholder="username"
-            />
+            {
+                whoAuth === "admin" && 
+                <MyInput
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
+                    type="text"
+                    placeholder="username"
+                />
+            }
+            {
+                whoAuth === "master" && 
+                <PhoneNumberInput 
+                    phoneNumber={username} 
+                    setPhoneNumber={setUsername}
+                    className={cl.myInput}
+                />
+            }
             <MyInput
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 type="password"
                 placeholder="пароль"
             />
-            <MyButton onClick={authorize}>Войти</MyButton>
+            <MyButton disabled={!username || !password} onClick={authorize}>Войти</MyButton>
             {errorMessage && <div>{errorMessage}</div>}
         </div>    
     );

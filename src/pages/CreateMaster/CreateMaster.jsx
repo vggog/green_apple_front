@@ -4,6 +4,7 @@ import PhoneNumberInput from "../../components/UI/PhoneNumberForm/PhoneNumberFor
 import { isValidPassword } from "../../utils/utils";
 import MasterService from "../../services/MasterService";
 import { useNavigate } from "react-router-dom";
+import { deleteChapters } from "../../utils/phoneNumber";
 
 
 function CreateMaster() {
@@ -24,10 +25,12 @@ function CreateMaster() {
     async function AddNewMaster(e) {
         e.preventDefault();
 
+        const phoneWithoutChapters = deleteChapters(phone)
+
         const newMaster = {
             "name": name,
             "surname": surname,
-            "phone": phone,
+            "phone": phoneWithoutChapters,
             "password": password,
         }
 

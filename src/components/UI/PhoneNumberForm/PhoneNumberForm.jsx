@@ -10,7 +10,7 @@ function PhoneNumberInput({phoneNumber, setPhoneNumber, ...props}) {
                 onChange={(e) => setPhoneNumber(getPhoneNumber(e.target.value, e))}
                 value={getPhoneNumber(phoneNumber)}
                 type="tel"
-                placeholder="Номер телефона"
+                placeholder="номер телефона"
                 maxLength={18}
                 {...props}
             />

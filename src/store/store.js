@@ -30,14 +30,16 @@ export default class Store {
             response = await MasterAuth.login(username, password);
         }
 
-        if (response.status === 401) {
+        if (response.status === 200) {
+            localStorage.setItem('token', response.data.access_token);
+        } else if (response.status === 401) {
             throw new UnauthorizedError("Логин или пароль неверный.", 401)
         } else if (response.status === 404) {
-            throw new MasterNotFoundError("Мастер не найден.111", 404)
+            throw new MasterNotFoundError("Мастер не найден.", 404)
         } else if (response.status === 403) {
             throw new MasterWhorstPasswordError("Мастер не найден.", 403)
         } else {
-            localStorage.setItem('token', response.data.access_token);
+            throw new Error("Произошла ошибка.")
         }
     }
 }
