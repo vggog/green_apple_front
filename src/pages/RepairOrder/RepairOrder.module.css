@@ -3,6 +3,7 @@
     margin: auto;
     border: 1px solid teal;
     padding: 10px;
+    overflow-wrap: break-word;
 }
 
 .updateStatusBtn {
