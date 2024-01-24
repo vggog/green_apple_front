@@ -25,4 +25,8 @@ export default class MasterService {
     static async getAllRepairOrders() {
         return api.get("/admin/repair_orders/all")
     }
+
+    static async getRepairOrder(repair_order_id) {
+        return api.get("/admin/repair_orders/" + repair_order_id)
+    }
 }

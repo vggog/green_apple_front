@@ -1,0 +1,12 @@
+.repairOrderInfo {
+    width: 800px;
+    margin: auto;
+    border: 1px solid teal;
+    padding: 10px;
+}
+
+@media ( max-width: 800px) {
+    .repairOrderInfo {
+        width: 90%;
+    }
+}

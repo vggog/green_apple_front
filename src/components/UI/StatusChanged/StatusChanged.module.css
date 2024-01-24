@@ -1,0 +1,28 @@
+.statusChangedList {
+    left: 0;
+    top: 50px;
+    width: 450px;
+    background-color: white;
+    list-style: none;
+    padding: 5px 15px;
+    margin: 0;
+
+    max-height: 250px;
+    height: auto;
+    overflow: auto;
+}
+
+.statusChangedList_item {
+    padding: 5px;
+}
+
+.toMasterLink:visited{
+    color: black;
+}
+.toMasterLink:active{
+    color: black;
+}
+.toMasterLink:link{
+    color: black;
+    text-decoration: none;
+}

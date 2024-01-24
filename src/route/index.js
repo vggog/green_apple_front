@@ -11,6 +11,7 @@ import MasterLogin from "../pages/MasterLogin/MasterLogin"
 import AllRepairOrders from "../pages/AllRepairOrders/AllRepairOrders"
 import RepairOrder from "../pages/RepairOrder/RepairOrder"
 import AddRepairOrder from "../pages/AddRepairOrder/AddRepairOrder"
+import AdminRepairOrder from "../pages/AdminRepairOrder/AdminRepairOrder"
 
 
 export const publicRoutes = [
@@ -23,6 +24,7 @@ export const adminRoutes = [
     {path: '/admin/master/:id', component: MasterInfo, exact: true},
     {path: '/admin/master/add', component: CreateMaster, exact: true},
     {path: '/admin/repair_orders', component: AdminAllRepairOrders, exact: true},
+    {path: '/repair_orders/:id', component: AdminRepairOrder, exact: true},
 ]
 
 export const masterRoutes = [
