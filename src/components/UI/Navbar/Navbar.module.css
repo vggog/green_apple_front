@@ -4,9 +4,10 @@
 }
 
 .logoStyle {
-    width: 50px;
+    width: auto;
     height: 50px;
     cursor: pointer;
+    margin-left: 25px;
 }
 
 .menuBtn {
