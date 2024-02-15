@@ -144,22 +144,6 @@ function AddRepairOrder() {
                     placeholder="Модель телефона"
                     className={classes.inputForm}
                 />
-                {
-                    (autocompliteIsOpen) && 
-                    <ul
-                        className={classes.autoComplite}
-                    >
-                        {
-                            recomendPhoneModels.map( (item) => 
-                                <li 
-                                    key={item} 
-                                    className={classes.autoComplite_item}
-                                    onClick={(e) => presentPhoneModelsClick(e)}
-                                >{item}</li>
-                            )
-                        }
-                    </ul>
-                }
                 <input 
                     onChange={(e) => setIMEI(e.target.value)}
                     value={imei}
