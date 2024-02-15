@@ -9,6 +9,7 @@ import { getPhoneNumber, deleteChapters } from "../../utils/phoneNumber";
 import { useNavigate } from "react-router-dom";
 import MyModal from "../../components/MyModal/MyModal";
 import DeleteMaster from "../../components/UI/DeleteMaster/DeleteMaster";
+import { set } from "mobx";
 
 
 function MasterInfo() {
@@ -19,6 +20,8 @@ function MasterInfo() {
     const [phone, setPhone] = useState("");
     const [isUpdatingLoading, setIsUpdatingLoading] = useState(false)
 
+    const [error, setError] = useState("");
+
     const [newPassword, setNewPassword] = useState("");
     const [repeatNewPassword, setRepeatNewpassword] = useState("");
 
@@ -26,8 +29,16 @@ function MasterInfo() {
 
     const [fetchMaster, isLoading, masterError] = useFetching(async () => {
         const response = await MasterService.getMasterInfo(params.id);
-        setMaster(response.data);
-        setPhone(response.data.phone);
+        try {
+            if (response.status === 200 || response.status === 201) {
+                setMaster(response.data);
+                setPhone(response.data.phone);
+            } else if (response.status === 401) {
+                setError("Токен устарел, перезайдите в учётную запись.");
+            }
+        } catch (TypeError) {
+            setError("Ошибка сервера.");
+        }
     });
 
     useEffect(() => {
@@ -36,9 +47,14 @@ function MasterInfo() {
 
     if (isLoading) {
         return (
-            <div>Загрузка</div>
+            <div>Загрузка...</div>
         );
     };
+    if (error) {
+        return (
+            <div>{error}</div>
+        );
+    }
 
     function chancgedPasswordIsCorrect() {
         return (newPassword && repeatNewPassword) && (newPassword === repeatNewPassword) && isValidPassword(newPassword)
@@ -74,14 +90,19 @@ function MasterInfo() {
             try {
                 setIsUpdatingLoading(true);
                 const response = await MasterService.updateMasterInfo(updatedInfo, params.id);
-                const updatedMaster = {
-                    ...response.data, 
-                    id: params.id
+                console.log(response);
+                if (response.status === 201 || response.status === 200) {
+                    const updatedMaster = {
+                        ...response.data, 
+                        id: params.id
+                    }
+                    setMaster(updatedMaster);
+                    setPhone(updatedMaster.phone);
+                } else if (response.status === 401) {
+                    setError("Токен устарел, перезайдите в учётную запись.");
                 }
-                setMaster(updatedMaster);
-                setPhone(updatedMaster.phone);
-            } catch (e) {
-                console.log(e);
+            } catch (TypeError) {
+                setError("Ошибка сервера.")
             } finally {
                 setIsUpdatingLoading(false);
                 setNewPassword("");

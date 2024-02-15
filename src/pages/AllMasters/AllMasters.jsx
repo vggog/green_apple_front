@@ -7,10 +7,19 @@ import { useFetching } from "../../hooks/useFetching";
 
 function AllMasters() {
     const [masters, setMasters] = useState([]);
+    const [error, setError] = useState("");
 
     const [fetchMasters, isLoading, masterError] = useFetching(async () => {
         const response = await MasterService.getAllMasters();
-        setMasters(response.data);
+        try {
+            if (response.status === 200) {
+                setMasters(response.data);
+            } else if (response.status === 401) {
+                setError("Срок действия токена просрочен, перезайдите в профиль.");
+            } 
+        } catch (TypeError) {
+            setError("Ошибка сервера.");
+        }
     })
 
     useEffect(() => {
@@ -20,6 +29,11 @@ function AllMasters() {
     if (isLoading) {
         return (
             <div>Загрузка</div>
+        )
+    }
+    if (error) {
+        return (
+            <div>{error}</div>
         )
     }
 

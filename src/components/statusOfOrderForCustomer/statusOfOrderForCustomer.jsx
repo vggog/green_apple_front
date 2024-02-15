@@ -12,14 +12,23 @@ function StatusOfOrderForCustomer({repairOrderId}) {
         var response;
         setIsLoading(true);
         response = await CustomerService.fetchRepairOrder(repairOrderId);
-        if (response.status === 200) {
-            setRepairOrder(response.data);
-        } else if (response.status === 404) {
-            setServiceError("Заказ на ремонт с таким трек-номером не найден.");
-        } else {
-            setServiceError("Произошла ошибка.");
+        console.log(response);
+
+        try{
+            if (response.status === 200) {
+                setRepairOrder(response.data);
+            } else if (response.status === 404) {
+                setServiceError("Заказ на ремонт не найден.");
+            } else if (response.status === 401) {
+                setServiceError("Токен устарел, перезайдите в учётную запись.");
+            } else {
+                setServiceError("Произошла ошибка.");
+            }
+        } catch {
+            setServiceError("Произошла ошибка сервера.")
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -28,7 +37,7 @@ function StatusOfOrderForCustomer({repairOrderId}) {
 
     if (isLoading) {
         return (
-            <div>
+            <div className={classes.statusOfOrder}>
                 Загрузка...
             </div>
         )

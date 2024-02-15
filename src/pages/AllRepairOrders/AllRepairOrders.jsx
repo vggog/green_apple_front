@@ -12,12 +12,23 @@ function AllRepairOrders() {
 
     const [repairOrders, setRepairOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
 
     async function GetAllRepairOrders() {
         setIsLoading(true);
         const response = await RepairOrderService.getAllRepairOrders();
-        const rawRepairOrders = response.data;
-        setRepairOrders(rawRepairOrders.filter((item) => item.status !== "Выдан клиенту"));
+        try {
+            if (response.status === 200) {
+                const rawRepairOrders = response.data;
+                setRepairOrders(rawRepairOrders.filter((item) => item.status !== "Выдан клиенту"));
+            } else if (response.status === 401) {
+                setError("Токен устарел, перезайдите в учётную запись.");
+            } else {
+                setError("Произошла ошибка сервера.")
+            }
+        } catch {
+            setError("Произошла ошибка сервера.");
+        }
         setIsLoading(false);
     }
 
@@ -33,9 +44,18 @@ function AllRepairOrders() {
         return (
             <div>Загрузка...</div>
         )
+    } else if (error) {
+        return (
+            <div>{error}</div>
+        )
     } else if (repairOrders.length === 0) {
         return (
-            <div>Список заказов пуст.</div>
+            <div className={classes.allRepairOrders}>
+                <h1 style={{"textAlign": "center"}}>Все заказы на ремонт</h1>
+                <hr />
+                <MyButton onClick={redirectToAddRepairOrder}>Создать заказ</MyButton>
+                <div>Список заказов пуст.</div>
+            </div>
         )
     }
 

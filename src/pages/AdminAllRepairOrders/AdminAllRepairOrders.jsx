@@ -8,12 +8,21 @@ import classes from "./AdminAllRepairOrders.module.css"
 function AdminAllRepairOrders() {
     const [repairOrders, setRepairOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
 
     async function GetAllRepairOrders() {
         setIsLoading(true);
         const response = await MasterService.getAllRepairOrders();
-        setRepairOrders(response.data);
-        setIsLoading(false);
+        try {
+            setRepairOrders(response.data);
+            if (response.status === 401) {
+                setError("Токен устарел, перезайдите в учётную запись.");
+            } 
+        } catch (TypeError) {
+            setError("Ошибка сервера.");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -23,6 +32,10 @@ function AdminAllRepairOrders() {
     if (isLoading) {
         return (
             <div>Загрузка...</div>
+        )
+    } else if (error) {
+        return (
+            <div>{error}</div>
         )
     } else if (repairOrders.length === 0) {
         return (

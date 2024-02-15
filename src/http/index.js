@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const API_URL = "http://localhost:8000";
-//export const API_URL = "http://192.168.0.32:8000"
+//export const API_URL = "http://localhost:8000";
+export const API_URL = "http://79.174.12.190:8000";
 
 const api = axios.create({
     withCredentials: true,
@@ -13,7 +13,6 @@ api.interceptors.request.use((config) => {
     return config;
 })
 
-
 api.interceptors.response.use(
     (res) => {return res},
     async (error) => {
@@ -21,6 +20,11 @@ api.interceptors.response.use(
 
         if (error.response) {
             if (error.response.status === 401 && !originalConfig._retry) {
+                var url = originalConfig.url;
+
+                if (url.slice(url.length - "refresh".length) === "refresh")
+                    return error.response;
+
                 originalConfig._retry = true;
                 var rs;
                 if (localStorage.getItem("whoAuth") === "admin") {
@@ -28,14 +32,14 @@ api.interceptors.response.use(
                 } else if (localStorage.getItem("whoAuth") === "master") {
                     rs = await api.get("/master/refresh");
                 }
-                
+
                 const accessToken = rs.data.access_token;
                 localStorage.removeItem("token");
                 localStorage.setItem("token", accessToken);
 
                 return api(originalConfig);
             }
-            
+
             return error.response
         }
     }

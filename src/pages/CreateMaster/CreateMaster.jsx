@@ -17,6 +17,7 @@ function CreateMaster() {
     const [repeatPassword, setRepeatPassword] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState()
 
     function allInfoEntered() {
         return name && surname && phone && (isValidPassword(password) && password == repeatPassword)
@@ -36,10 +37,17 @@ function CreateMaster() {
 
         setIsLoading(true);
         const response = await MasterService.addNewMaster(newMaster);
-        const updatedMaster = response.data;
-        console.log(updatedMaster);
-        setIsLoading(false);
-        navigate("/admin/master/all");
+        try {
+            const updatedMaster = response.data;
+            if (response.status === 401) {
+                setError("Токен устарел, перезайдите в учётную запись.");
+            }
+            navigate("/admin/master/all");
+        } catch (TypeError) {
+            setError("Ошибка сервера.");
+        } finally {
+            setIsLoading(false);
+        }
     }
     
     return (
@@ -86,6 +94,7 @@ function CreateMaster() {
                         Добавить
                     </button>
                 }
+                {error && <div>{error}</div>}
             </form>
         </div>
     )

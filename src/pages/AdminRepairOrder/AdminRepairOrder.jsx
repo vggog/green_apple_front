@@ -11,12 +11,21 @@ function AdminRepairOrder() {
 
     const [repairOrder, setRepairOrder] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
 
     async function fetchRepairOrder() {
         setIsLoading(true);
-        response = await MasterService.getRepairOrder(params.id);
-        setRepairOrder(response.data);
-        setIsLoading(false);
+        try {
+            response = await MasterService.getRepairOrder(params.id);
+            setRepairOrder(response.data);
+            if (response.status === 401) {
+                setError("Токен устарел, перезайдите в учётную запись.");
+            } 
+        } catch (TypeError) {
+            setError("Ошибка сервера.")
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -26,6 +35,12 @@ function AdminRepairOrder() {
     if (isLoading) {
         return (
             <div>Загрузка...</div>
+        )
+    }
+
+    if (error) {
+        return (
+            <div>{error}</div>
         )
     }
 

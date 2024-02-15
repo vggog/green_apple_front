@@ -24,6 +24,7 @@ function AddRepairOrder() {
     const [isRecomendAutocomplite, setIsRecomendAutocomplite] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
 
     async function sendDataToBackEnd(e) {
         e.preventDefault();
@@ -39,10 +40,20 @@ function AddRepairOrder() {
 
         setIsLoading(true);
         const response = await RepairOrderService.addRepairOrder(repairOrderData);
-        const repairOrder = response.data;
-        setIsLoading(false);
-
-        navigate("/repair_orders/" + repairOrder.id);
+        var repairOrder;
+        try {
+            repairOrder = response.data;
+            if (response.status === 200 || response.status === 201) {
+                navigate("/repair_orders/" + repairOrder.id);
+            }
+            if (response.status === 401) {
+                setError("Токен устарел, перезайдите в учётную запись.");
+            } 
+        } catch (TypeError) {
+            setError("Ошибка сервера");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     function inputAllData() {
@@ -194,6 +205,7 @@ function AddRepairOrder() {
                 >
                     Добавить
                 </button>
+                {error && <div>{error}</div>}
             </form>
         </div>
     )
