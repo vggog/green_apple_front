@@ -99,6 +99,14 @@ function Navbar() {
                     }>Все мастера</MyButton>
                     }
                     {
+                        localStorage.getItem("whoAuth") === "admin" && currentUrl.search("/admin/repair_orders") === -1 &&
+                        <MyButton className={classes.menuBtnWhenIsOpend} onClick={(e) => {
+                            e.preventDefault();
+                            navigate('/admin/repair_orders')
+                        }
+                    }>Заказы</MyButton>
+                    }
+                    {
                         localStorage.getItem("whoAuth") === "admin" && currentUrl.search("/admin/master/add") === -1 &&
                         <MyButton className={classes.menuBtnWhenIsOpend} onClick={(e) => {
                             e.preventDefault();
